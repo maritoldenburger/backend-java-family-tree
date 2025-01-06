@@ -11,7 +11,7 @@ public class Person {
     private Person father;
     private List<Person> siblings = new ArrayList<>();
     private List<Person> children = new ArrayList<>();
-    private List<Person> pets = new ArrayList<>();
+    private List<Pet> pets = new ArrayList<>();
 
     public Person (String name, String lastName, String sex, int age) {
         this.name = name;
@@ -64,7 +64,7 @@ public class Person {
         return children;
     }
 
-    public List<Person> getPets() {
+    public List<Pet> getPets() {
         return pets;
     }
 
@@ -96,17 +96,37 @@ public class Person {
         this.father = father;
     }
 
-    public void addParents (Person father, Person mother) {
+    public void addParents(Person father, Person mother) {
         this.father = father;
-        this.mother = mother;
-
-        setMother(mother);
-        mother.addChild(this);
-
-        setFather(father);
         father.addChild(this);
+
+        this.mother = mother;
+        mother.addChild(this);
     }
 
-    public void addChild (Person child) {
+    public void addChild(Person child) {
+        if (!children.contains(child)) {
+            children.add(child);
+        }
+    }
+
+    public void addPet(Pet pet) {
+        if (!pets.contains(pet)) {
+            pets.add(pet);
+        }
+    }
+
+    public void addSibling(Person sibling) {
+        if (!siblings.contains(sibling)) {
+            siblings.add(sibling);
+        }
+    }
+
+    public List<Person> getGrandChildren() {
+        List<Person> grandChildren = new ArrayList<>();
+        for (Person children : getChildren()) {
+            grandChildren.addAll(children.getChildren());
+        }
+        return grandChildren;
     }
 }
